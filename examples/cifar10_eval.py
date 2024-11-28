@@ -1,16 +1,16 @@
 import os
 import io
-from classification.utils import *
-from classification.ptflops import get_model_complexity_info
-from classification.ptflops.pytorch_ops import linear_flops_counter_hook
-from classification.ptflops.pytorch_ops import conv_flops_counter_hook
-from classification.train import train_one_epoch
+from transaxx.classification.utils import *
+from transaxx.classification.ptflops import get_model_complexity_info
+from transaxx.classification.ptflops.pytorch_ops import linear_flops_counter_hook
+from transaxx.classification.ptflops.pytorch_ops import conv_flops_counter_hook
+from transaxx.classification.train import train_one_epoch
 from neural_networks.CIFAR10.resnet import resnet8, resnet20, resnet32, resnet56
 device = 'cuda'
 
 
 #load dataset
-val_data, calib_data = cifar10_data_loader(data_path="/home/michael/thesis_fw/data/", batch_size=128)
+val_data, calib_data = cifar10_data_loader(data_path="./data/", batch_size=128)
 
 
 
@@ -19,14 +19,14 @@ val_data, calib_data = cifar10_data_loader(data_path="/home/michael/thesis_fw/da
 #model = torch.hub.load("chenyaofo/pytorch-cifar-models", 'cifar10_repvgg_a0', pretrained=True).to(device)
 mode= {"execution_type": 'float', "act_bit": 8, "weight_bit": 8, "bias_bit": 32, "fake_quant": True, "classes": 10, "act_type": 'ReLU'}
 model = resnet8(mode).to(device)
-filename = "examples/models/resnet8_a8_w8_b32_fake_quant_cifar10_ReLU.pth"
+filename = "neural_networks/models/resnet8_a8_w8_b32_fake_quant_cifar10_ReLU.pth"
 checkpoint = torch.load(filename, map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'], strict=True)
 model.to(device)
 
 #optional: evaluate default model
 top1 = evaluate_cifar10(model, val_data, device = device)
-
+print('Accuracy of the network on the 10000 test images: %.4f %%' % top1)
 
 
 #initialize model with axx layers
@@ -87,7 +87,7 @@ print('Model compiled. Running evaluation')
 
 # Run evaluation on the validation dataset
 top1 = evaluate_cifar10(model, val_data, device = device)
-
+print('Accuracy of the network on the 10000 test images: %.4f %%' % top1)
 
 
 #run model retraining
@@ -102,3 +102,4 @@ train_one_epoch(model, criterion, optimizer, calib_data, device, 0, 10)
 
 #re-run model evaluation
 top1 = evaluate_cifar10(model, val_data, device = device)
+print('Accuracy of the network on the 10000 test images: %.4f %%' % top1)

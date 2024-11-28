@@ -36,9 +36,9 @@ from .layer_utils import _pair
 from torch.utils.cpp_extension import load
 compute_arch = 'compute_70'
 base_dir = os.environ.get('PYTHONPATH').split(os.pathsep)[-1]
-prefix = base_dir + 'ext_modules/src/nn/cpp'
-prefix_cuda = base_dir + 'ext_modules/src/nn/cuda'
-include_dir = base_dir + 'ext_modules/include'
+prefix = base_dir + 'transaxx/ext_modules/src/nn/cpp'
+prefix_cuda = base_dir + 'transaxx/ext_modules/src/nn/cuda'
+include_dir = base_dir + 'transaxx/ext_modules/include'
 source_basename = 'adapt_convolution_layer'
 ###################################################
 
@@ -83,7 +83,7 @@ class AdaptConv2DFunction(torch.autograd.Function):
 
                 out = out / ((quant_limit / amax) * ((quant_limit / amax_w)))
 
-            else: 
+            else:
                 out = axx_conv2d_kernel.adapt_conv_forward(quant_input, quant_weight, kernel_size[0], kernel_size[1],
                                                      stride[0], stride[1], padding[0],
                                                      padding[1], dilation[0], dilation[1])

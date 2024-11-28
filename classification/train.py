@@ -7,8 +7,8 @@ import torch.utils.data
 from torch import nn
 import torchvision
 
-from classification import presets
-from classification import utils
+from transaxx.classification import presets
+from transaxx.classification import utils
 
 try:
     from apex import amp

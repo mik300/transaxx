@@ -23,8 +23,8 @@ import numpy as np
 from pytorch_quantization import nn as quant_nn
 from pytorch_quantization import calib
 
-from layers.adapt_linear_layer import AdaPT_Linear
-from layers.adapt_convolution_layer import AdaptConv2D
+from transaxx.layers.adapt_linear_layer import AdaPT_Linear
+from transaxx.layers.adapt_convolution_layer import AdaptConv2D
 
 def replace_linear_layers(model, custom_linear_class, axx_list, total_macs, total_params, layer_count = [0], returned_power = [0], initialize = True):
     """
@@ -125,8 +125,7 @@ def evaluate_cifar10(model, data, device='cuda'):
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     print(timeit.default_timer() - start_time)
-    print('Accuracy of the network on the 10000 test images: %.4f %%' % (
-        100 * correct / total))
+    #print('Accuracy of the network on the 10000 test images: %.4f %%' % (100 * correct / total))
     return 100 * correct / total
     
 def cifar10_data_loader (data_path, batch_size=128):

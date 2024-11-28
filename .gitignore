@@ -10,3 +10,4 @@ versions.sh
 *.ipynb
 *.ipynb_checkpoints
 examples/cifar10_eval.ipynb
+bw_mult_9_9_*.h

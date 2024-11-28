@@ -1,0 +1,12 @@
+__pycache__/
+=1.8.0+cu111
+pytorch-quantization/pytorch_quantization.egg-info
+pytorch-quantization/dist
+pytorch-quantization/build
+pytorch-quantization/.eggs
+build.log
+versions.py
+versions.sh
+*.ipynb
+*.ipynb_checkpoints
+examples/cifar10_eval.ipynb

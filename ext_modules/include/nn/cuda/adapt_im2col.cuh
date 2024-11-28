@@ -17,6 +17,7 @@
 #define EXPAND(s) s
 
 #include STR(axx_mults/EXPAND(AXX_MULT).h)
+//#include "axx_mults/bw_mult_9_9_0.h"
 #define QUANT_MASK (1 << QUANT_BITS) - 1
 
 namespace adapt_layer {
@@ -82,7 +83,8 @@ __global__ void axx_gemm_default(size_t m, size_t n, size_t k,
          __syncthreads();
 
          for (int t = 0; t < TILE_DIM; ++t){
-            value += __ldg(&lut[uint8_t(As[threadIdx.y][t])&QUANT_MASK][uint8_t(Bs[t][threadIdx.x])&QUANT_MASK]);
+            //printf("As[threadIdx.y][t]) = %u\n", uint16_t(As[threadIdx.y][t])&QUANT_MASK);
+            value += __ldg(&lut[uint16_t(As[threadIdx.y][t])&QUANT_MASK][uint16_t(Bs[t][threadIdx.x])&QUANT_MASK]);
          //value += As[threadIdx.y][t] * Bs[t][threadIdx.x];
         }
          __syncthreads();
@@ -151,7 +153,7 @@ __global__ void matrix_multiply_shared(const T1* A, const T2* B, T3* C, int m, i
 
         for (int j = 0; j < TILE_DIM; j++) {
             //Cvalue += A_shared[ty][j] * B_shared[j][tx];
-            Cvalue += __ldg(&lut[uint8_t(A_shared[ty][j])&QUANT_MASK][uint8_t(B_shared[j][tx])&QUANT_MASK]);
+            Cvalue += __ldg(&lut[uint16_t(A_shared[ty][j])&QUANT_MASK][uint16_t(B_shared[j][tx])&QUANT_MASK]);
         }
 
         __syncthreads();

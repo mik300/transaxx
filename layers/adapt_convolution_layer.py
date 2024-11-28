@@ -36,9 +36,9 @@ from .layer_utils import _pair
 from torch.utils.cpp_extension import load
 compute_arch = 'compute_70'
 base_dir = os.environ.get('PYTHONPATH').split(os.pathsep)[-1]
-prefix = base_dir + '/ext_modules/src/nn/cpp'
-prefix_cuda = base_dir + '/ext_modules/src/nn/cuda'
-include_dir = base_dir + '/ext_modules/include'
+prefix = base_dir + 'ext_modules/src/nn/cpp'
+prefix_cuda = base_dir + 'ext_modules/src/nn/cuda'
+include_dir = base_dir + 'ext_modules/include'
 source_basename = 'adapt_convolution_layer'
 ###################################################
 
